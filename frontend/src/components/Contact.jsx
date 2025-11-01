@@ -22,7 +22,9 @@ const Contact = () => {
     setStatus("Sending...");
 
     try {
-      const res = await axios.post("http://localhost:8000/sendMail", formData);
+      const backendURL = import.meta.env.VITE_BACKEND_URL;
+      console.log("This is backend url", backendURL);
+      const res = await axios.post(`${backendURL}/sendMail`, formData);
       if (res.data.success) {
         toast.success("✅ Mail sent successfully!");
         setFormData({ name: "", email: "", message: "" });
