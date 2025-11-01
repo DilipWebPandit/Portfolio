@@ -1,0 +1,37 @@
+[
+  {
+    "name": "HTML",
+    "icon": "/icons/html.svg",
+    "color": "from-orange-500 to-yellow-400"
+  },
+  {
+    "name": "CSS",
+    "icon": "/icons/css.svg",
+    "color": "from-blue-500 to-cyan-400"
+  },
+  {
+    "name": "JavaScript",
+    "icon": "/icons/js.svg",
+    "color": "from-yellow-400 to-amber-500"
+  },
+  {
+    "name": "React",
+    "icon": "/icons/react.svg",
+    "color": "from-cyan-400 to-blue-500"
+  },
+  {
+    "name": "Node.js",
+    "icon": "/icons/node.svg",
+    "color": "from-green-500 to-lime-400"
+  },
+  {
+    "name": "MongoDB",
+    "icon": "/icons/mongodb.svg",
+    "color": "from-emerald-500 to-green-400"
+  },
+  {
+    "name": "MySQL",
+    "icon": "/icons/mysql.svg",
+    "color": "from-sky-500 to-blue-600"
+  }
+]
