@@ -20,7 +20,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173", // local frontend
-      "https://dilip-portfolio.onrender.com", // your deployed frontend
+      "https://portfolio1-ehew.onrender.com", // your deployed frontend
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
