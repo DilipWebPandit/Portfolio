@@ -81,7 +81,7 @@ GitHub: <a href="www.linkedin.com/in/dilip-kumar-6533a424b">github.com/dilipkuma
       message: "Emails sent successfully",
     });
   } catch (error) {
-    console.error("❌ Email sending failed:", err);
+    console.error("❌ Email sending failed:", error);
     res.status(500).send({
       success: false,
       message: `Email failed: ${error.message}`,
