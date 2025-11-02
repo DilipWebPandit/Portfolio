@@ -3,40 +3,6 @@ import { motion } from "framer-motion";
 
 import skills from "../assets/skills.json";
 
-// const skills = [
-//   {
-//     name: "HTML",
-//     icon: "/icons/html.svg",
-//     color: "from-orange-500 to-yellow-400",
-//   },
-//   { name: "CSS", icon: "/icons/css.svg", color: "from-blue-500 to-cyan-400" },
-//   {
-//     name: "JavaScript",
-//     icon: "/icons/js.svg",
-//     color: "from-yellow-400 to-amber-500",
-//   },
-//   {
-//     name: "React",
-//     icon: "/icons/react.svg",
-//     color: "from-cyan-400 to-blue-500",
-//   },
-//   {
-//     name: "Node.js",
-//     icon: "/icons/node.svg",
-//     color: "from-green-500 to-lime-400",
-//   },
-//   {
-//     name: "MongoDB",
-//     icon: "/icons/mongodb.svg",
-//     color: "from-emerald-500 to-green-400",
-//   },
-//   {
-//     name: "MySQL",
-//     icon: "/icons/mysql.svg",
-//     color: "from-sky-500 to-blue-600",
-//   },
-// ];
-
 const Skill = () => {
   // Calculate total width needed for seamless loop
   // Each card is 320px + 40px gap = 360px per card
@@ -74,6 +40,7 @@ const Skill = () => {
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.1, rotate: 2 }}
+                whileTap={{ scale: 1.1, rotate: 2 }}
                 className={`min-w-[130px] md:min-w-[150px] rounded-2xl p-5 shadow-lg 
                 bg-linear-to-b from-gray-800 to-gray-900 hover:shadow-[0_0_20px_#6366f1] 
                 border border-transparent hover:border-indigo-400/50 transition-all duration-500 
