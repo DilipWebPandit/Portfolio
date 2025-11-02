@@ -1,15 +1,61 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, useAnimationFrame } from "framer-motion";
 
 import skills from "../assets/skills.json";
 
 const Skill = () => {
-  // Calculate total width needed for seamless loop
-  // Each card is 320px + 40px gap = 360px per card
-  const cardWidth = 150; // 320px card + 40px gap (gap-10 = 2.5rem = 40px)
+  const [centerIndex, setCenterIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const cardWidth = 150;
   const totalCards = skills.length;
   const totalWidth = cardWidth * totalCards - 40;
   let speed = 30;
+
+  // Detect if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is md breakpoint in Tailwind
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Track which card is in the center - only on mobile
+  useAnimationFrame((time) => {
+    if (!isMobile) {
+      setCenterIndex(null);
+      return;
+    }
+
+    // Calculate current position in the animation cycle
+    const progress = (time / (speed * 1000)) % 1;
+    const currentX = -progress * totalWidth;
+
+    // Get viewport center
+    const viewportCenter = window.innerWidth / 2;
+
+    // Find which card is closest to center
+    const duplicatedSkills = [...skills, ...skills];
+    let closestIndex = null;
+    let minDistance = Infinity;
+
+    duplicatedSkills.forEach((_, index) => {
+      const cardPosition = currentX + index * cardWidth;
+      const distance = Math.abs(cardPosition + 75 - viewportCenter); // 75 is half card width
+
+      if (distance < minDistance && distance < 150) {
+        // Within 150px of center
+        minDistance = distance;
+        closestIndex = index;
+      }
+    });
+
+    setCenterIndex(closestIndex);
+  });
 
   return (
     <section
@@ -30,39 +76,60 @@ const Skill = () => {
 
         {/* Moving Skills Row */}
         <div className="relative w-full overflow-hidden">
-          {/* {window.innerWidth < 640 && (speed = 20)} */}
           <motion.div
             className="flex gap-8 md:gap-10"
-            animate={{ x: ["0%", -totalWidth] }}
+            animate={{ x: ["0%", `${-totalWidth}px`] }}
             transition={{ ease: "linear", duration: speed, repeat: Infinity }}
           >
-            {[...skills, ...skills].map((skill, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.1, rotate: 2 }}
-                whileTap={{ scale: 1.1, rotate: 2 }}
-                className={`min-w-[130px] md:min-w-[150px] rounded-2xl p-5 shadow-lg 
-                bg-linear-to-b from-gray-800 to-gray-900 hover:shadow-[0_0_20px_#6366f1] 
-                border border-transparent hover:border-indigo-400/50 transition-all duration-500 
-                flex flex-col items-center justify-center my-10 relative group`}
-              >
-                {/* Color glow behind icon */}
-                <div
-                  className={`absolute inset-0 opacity-0 group-hover:opacity-100 blur-xl 
-                  transition-all duration-500 bg-linear-to-r ${skill.color}`}
-                ></div>
+            {[...skills, ...skills].map((skill, index) => {
+              const isCenter = isMobile && centerIndex === index;
 
-                <motion.img
-                  src={skill.icon}
-                  alt={skill.name}
-                  className="h-14 w-14 mb-3 relative z-10 drop-shadow-[0_0_12px_rgba(255,255,255,0.5)] 
-                  transition-transform duration-500 group-hover:scale-110"
-                />
-                <p className="text-sm md:text-base font-medium text-gray-200 relative z-10">
-                  {skill.name}
-                </p>
-              </motion.div>
-            ))}
+              return (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.1, rotate: 2 }}
+                  animate={{
+                    scale: isCenter ? 1.15 : 1,
+                    rotate: isCenter ? 2 : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className={`min-w-[130px] md:min-w-[150px] rounded-2xl p-5 shadow-lg 
+                  bg-linear-to-b from-gray-800 to-gray-900 hover:shadow-[0_0_20px_#6366f1]
+                  border transition-all duration-500 flex flex-col items-center justify-center my-10 relative group
+                  ${
+                    isMobile && isCenter
+                      ? "border-indigo-400/50 shadow-[0_0_25px_#6366f1]"
+                      : "border-transparent hover:border-indigo-400/50"
+                  }`}
+                >
+                  {/* Single Color glow - mobile center OR desktop/mobile hover */}
+                  <div
+                    className={`absolute inset-0 blur-xl transition-all duration-500 bg-linear-to-r ${
+                      skill.color
+                    }
+                    ${
+                      isCenter
+                        ? "opacity-100"
+                        : "opacity-0 group-hover:opacity-100"
+                    }`}
+                  ></div>
+
+                  <motion.img
+                    src={skill.icon}
+                    alt={skill.name}
+                    animate={{
+                      scale: isCenter ? 1.1 : 1,
+                    }}
+                    transition={{ duration: 0.3 }}
+                    className="h-14 w-14 mb-3 relative z-10 drop-shadow-[0_0_12px_rgba(255,255,255,0.5)] 
+                    transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <p className="text-sm md:text-base font-medium text-gray-200 relative z-10">
+                    {skill.name}
+                  </p>
+                </motion.div>
+              );
+            })}
           </motion.div>
         </div>
       </div>
