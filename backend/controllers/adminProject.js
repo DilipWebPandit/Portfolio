@@ -46,9 +46,9 @@ export const sendMail = async (req, res) => {
   try {
     // First email to you
     const receiverMailOptions = {
-      from: process.env.SENDER_MAIL, // Changed: must be your verified Brevo email
+      from: process.env.SENDER_MAIL,
       to: process.env.ADMIN,
-      replyTo: email, // This allows you to reply directly to the user
+      replyTo: email,
       subject: "New Portfolio Contact Form Submission",
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     };
@@ -81,7 +81,7 @@ GitHub: <a href="www.linkedin.com/in/dilip-kumar-6533a424b">github.com/dilipkuma
       message: "Emails sent successfully",
     });
   } catch (error) {
-    console.error("❌ Email sending failed:");
+    console.error("❌ Email sending failed:", err);
     res.status(500).send({
       success: false,
       message: `Email failed: ${error.message}`,

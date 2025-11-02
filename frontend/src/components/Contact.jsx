@@ -23,6 +23,7 @@ const Contact = () => {
 
     try {
       const backendURL = import.meta.env.VITE_BACKEND_URL;
+      // const backendURL = import.meta.env.VITE_LOCAL_URL;
       console.log("This is backend url", backendURL);
       const res = await axios.post(`${backendURL}/sendMail`, formData);
       if (res.data.success) {
