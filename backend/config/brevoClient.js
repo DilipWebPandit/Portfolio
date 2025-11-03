@@ -3,6 +3,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const brevoClient = new Brevo.TransactionalEmailsApi();
-brevoClient.authentications["apiKey"].apiKey = process.env.BREVO_API_KEY;
+
+// Set API key authentication
+brevoClient.setApiKey(
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
 
 export default brevoClient;
