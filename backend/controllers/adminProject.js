@@ -1,5 +1,6 @@
 import adminProjectModel from "../models/adminUploadDetails.js";
 import transporter from "../config/nodemailerConfig.js";
+import brevoClient from "../config/brevoClient.js";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -46,22 +47,25 @@ export const sendMail = async (req, res) => {
   try {
     // First email to you
     const receiverMailOptions = {
-      from: process.env.SENDER_MAIL,
-      to: process.env.ADMIN,
-      replyTo: email,
+      // from: process.env.SENDER_MAIL,
+      sender: { email: process.env.SENDER_MAIL, name: "Portfolio Contact" },
+      to: [{ email: process.env.ADMIN, name: "Dilip Kumar" }],
+      replyTo: { email },
       subject: "New Portfolio Contact Form Submission",
-      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      textContent: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     };
 
     // console.log("Sending first email...");
-    await transporter.sendMail(receiverMailOptions);
+    // await transporter.sendMail(receiverMailOptions);
+
+    await brevoClient.sendTransacEmail(receiverMailOptions);
 
     // Confirmation email to sender
     const senderMailOptions = {
-      from: process.env.SENDER_MAIL,
-      to: email,
+      sender: { email: process.env.SENDER_MAIL, name: "Dilip Kumar" },
+      to: [{ email }],
       subject: "Thank you for reaching out!",
-      text: `Hi ${name},
+      htmlContent: `Hi ${name},
 
 Thank you for contacting me through my portfolio website. I appreciate your message and will respond shortly.  
 If your request is time-sensitive, please let me know in your reply.
@@ -69,12 +73,13 @@ If your request is time-sensitive, please let me know in your reply.
 Best regards,  
 Dilip Kumar  
 Full Stack Developer  
-Portfolio: dilipkumar.vercel.app  
-LinkedIn: linkedin.com/in/dilipkumar  
-GitHub: <a href="www.linkedin.com/in/dilip-kumar-6533a424b">github.com/dilipkumar</a>`,
+Portfolio:  <a href="https://portfolio1-ehew.onrender.com">portfolio1-ehew.onrender.com</a>
+LinkedIn: <a href="www.linkedin.com/in/dilip-kumar-6533a424b">github.com/dilipkumar</a> 
+GitHub: <a href="https://github.com/DilipWebPandit">github.com/DilipWebPandit</a>`,
     };
 
-    await transporter.sendMail(senderMailOptions);
+    // await transporter.sendMail(senderMailOptions);
+    await brevoClient.sendTransacEmail(senderMailOptions);
 
     res.status(200).send({
       success: true,
