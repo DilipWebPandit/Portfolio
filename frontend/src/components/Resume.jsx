@@ -86,7 +86,7 @@ const Resume = () => {
 
                 <button
                   onClick={handleDownloadClick}
-                  className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium shadow-md transition-all duration-300"
+                  className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium shadow-md transition-all duration-300 cursor-pointer"
                 >
                   View Resume
                 </button>
@@ -102,19 +102,19 @@ const Resume = () => {
               <div className="flex gap-4 mb-4">
                 <button
                   onClick={zoomOut}
-                  className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg transition flex items-center gap-2"
+                  className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg transition flex items-center gap-2 cursor-pointer"
                 >
                   <FaMinus /> Zoom Out
                 </button>
                 <button
                   onClick={resetZoom}
-                  className="bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-lg transition flex items-center gap-2"
+                  className="bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-lg transition flex items-center gap-2 cursor-pointer"
                 >
                   <FaUndo /> Reset
                 </button>
                 <button
                   onClick={zoomIn}
-                  className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg transition flex items-center gap-2"
+                  className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg transition flex items-center gap-2 cursor-pointer"
                 >
                   <FaPlus /> Zoom In
                 </button>
@@ -142,7 +142,7 @@ const Resume = () => {
                   <button
                     onClick={goToPreviousPage}
                     disabled={pageNumber <= 1}
-                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-500 rounded-lg transition-all duration-200"
+                    className={`flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-500 rounded-lg transition-all duration-200 ${pageNumber <= 1 ? "cursor-not-allowed" : "cursor-pointer"}`}
                   >
                     <ChevronLeft size={18} /> Previous
                   </button>
@@ -154,14 +154,14 @@ const Resume = () => {
                   <button
                     onClick={goToNextPage}
                     disabled={pageNumber >= numPages}
-                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-500 rounded-lg transition-all duration-200"
+                    className={`flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-500 rounded-lg transition-all duration-200 ${pageNumber >= numPages ? "cursor-not-allowed" : "cursor-pointer"}`}
                   >
                     Next <ChevronRight size={18} />
                   </button>
 
                   <button
                     onClick={handleDownload}
-                    className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-all duration-200"
+                    className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-all duration-200 cursor-pointer"
                   >
                     <Download size={18} /> Download PDF
                   </button>

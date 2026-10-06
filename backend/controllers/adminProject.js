@@ -40,12 +40,15 @@ export const sendMail = async (req, res) => {
   console.log("📧 Received email request:", { name, email });
 
   // Validate input
-  if (!name || !email || !message) {
+  if (!name?.trim() || !email?.trim() || !message?.trim()) {
     return res.status(400).send({
       success: false,
       message: "Name, email, and message are required",
     });
   }
+
+
+  console.log("This is api key", Boolean(process.env.BREVO_API_KEY))
 
   // Validate environment variables
   if (!process.env.BREVO_API_KEY) {

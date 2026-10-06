@@ -25,6 +25,11 @@ const Contact = () => {
       const backendURL = import.meta.env.VITE_BACKEND_URL;
       // const backendURL = import.meta.env.VITE_LOCAL_URL;
       // console.log("This is backend url", backendURL);
+
+      if(!formData.name.trim() || !formData.email.trim() || !formData.message.trim()){
+        return toast.error("Please filled all the details.");
+      };
+
       const res = await axios.post(`${backendURL}/sendMail`, formData);
       if (res.data.success) {
         toast.success("✅ Mail sent successfully!");
@@ -32,9 +37,10 @@ const Contact = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("⚠️ Something went wrong!");
+      toast.error(`${error.message ? error.message : "⚠️ Something went wrong!"}`);
+    }finally{
+      setStatus("Send Message");
     }
-    setStatus("Send Message");
   };
 
   return (
@@ -111,7 +117,7 @@ const Contact = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
               className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg 
-                         hover:bg-indigo-700 hover:shadow-lg transition-all duration-300"
+                         hover:bg-indigo-700 hover:shadow-lg transition-all duration-300 cursor-pointer"
             >
               {status}
             </motion.button>
